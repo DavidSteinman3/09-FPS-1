@@ -1,0 +1,74 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/shotgun.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Game.gd" type="Script" id=3]
+
+[sub_resource type="ConvexPolygonShape" id=1]
+points = PoolVector3Array( -15.082, 0.0819512, -15.082, -15.082, 0.0819512, 15.082, 15.082, 0.0819512, -15.082, 15.082, 0.0819512, 15.082 )
+
+[sub_resource type="PlaneMesh" id=2]
+size = Vector2( 30, 30 )
+
+[sub_resource type="CapsuleShape" id=3]
+radius = 0.5
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.4, 0.1, 0.4 )
+
+[node name="Game" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="Ground" type="StaticBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Ground"]
+shape = SubResource( 1 )
+
+[node name="Ground" type="MeshInstance" parent="Ground"]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="Player" type="KinematicBody" parent="."]
+script = ExtResource( 1 )
+
+[node name="Body" type="CollisionShape" parent="Player"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1.1, 0 )
+shape = SubResource( 3 )
+
+[node name="Feet" type="CollisionShape" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
+shape = SubResource( 4 )
+
+[node name="Pivot" type="Spatial" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0 )
+
+[node name="Camera" type="Camera" parent="Player/Pivot"]
+current = true
+
+[node name="Shotgun" parent="Player/Pivot" instance=ExtResource( 2 )]
+transform = Transform( -8, 0, -2.60673e-06, 0, 8, 0, 2.60673e-06, 0, -8, 0.2, -0.3, -0.4 )
+
+[node name="Muzzle" type="Position3D" parent="Player/Pivot"]
+transform = Transform( -1, 0, 3.25841e-07, 0, 1, 0, -3.25841e-07, 0, -1, 0.2, -0.251741, -0.706859 )
+
+[node name="Bullets" type="Spatial" parent="."]
+
+[node name="HUD" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="HUD"]
+margin_right = 114.0
+margin_bottom = 33.0
+color = Color( 0, 0, 0, 0.25098 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="HUD"]
+margin_left = 12.3744
+margin_top = 8.13173
+margin_right = 148.374
+margin_bottom = 39.1317
+text = "Score: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
